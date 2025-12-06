@@ -1,0 +1,303 @@
+        :root {
+            --accent: #0d6efd;
+            --muted: #6c757d;
+            --card-bg: #ffffff;
+            --soft: #f8fafc;
+            --danger: #dc3545;
+            --success: #198754;
+
+            /* Layout tokens: ubah di sini untuk tweak jarak cepat */
+            --sidebar-w: 250px;
+            /* previous: 260px — lebih rapat */
+            --sidebar-collapsed-w: 64px;
+            /* previous: 70px */
+            --sidebar-transition: .18s;
+        }
+
+        body {
+            background: var(--soft);
+          
+        }
+
+        /* SIDEBAR: expanded / collapsed sizes from variables */
+        #sidebar {
+            width: var(--sidebar-w);
+            min-height: 100vh;
+            background: #001f3f;
+            color: #fff;
+            transition: width var(--sidebar-transition) ease, left var(--sidebar-transition) ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        #sidebar .brand {
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+        }
+
+        #sidebar .brand .brand-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            overflow: hidden;
+            flex: 0 0 36px;
+        }
+
+        #sidebar .brand .brand-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        #sidebar .brand .brand-text {
+            display: block;
+            line-height: 1;
+        }
+
+        #sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.92);
+            display: flex;
+            align-items: center;
+            gap: .6rem;
+            padding: .6rem .9rem;
+            border-radius: 6px;
+        }
+
+        #sidebar .nav-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.05rem;
+        }
+
+        #sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        #sidebar .nav-link.active {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+        }
+
+        #sidebar .nav-label {
+            margin-left: .25rem;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        /* collapsed state: hide labels, center icons, use collapsed width variable */
+        #sidebar.collapsed {
+            width: var(--sidebar-collapsed-w);
+        }
+
+        #sidebar.collapsed .brand .brand-text {
+            display: none;
+        }
+
+        #sidebar.collapsed .nav-label {
+            display: none;
+        }
+
+        #sidebar.collapsed .nav-link {
+            justify-content: center;
+            padding-left: .6rem;
+            padding-right: .6rem;
+        }
+
+        /* signed-in area */
+        #sidebar .bottom-info {
+            padding: .75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        #sidebar.collapsed .bottom-info .username {
+            display: none;
+        }
+
+        #sidebar .btn-outline-light {
+            font-size: .85rem;
+            padding: .35rem .45rem;
+        }
+
+        /* MAINAREA shift according to sidebar width vars */
+        #mainarea {
+            transition: margin-left var(--sidebar-transition) ease;
+            margin-left: 70px;
+            min-height: 100vh;
+        }
+
+        /* the adjacent sibling rule used in your layout — keep it */
+        #sidebar.collapsed+#mainarea {
+            margin-left: var(--sidebar-collapsed-w);
+        }
+
+        /* MOBILE: keep behavior, no change */
+        @media (max-width: 768px) {
+            #sidebar {
+                position: fixed;
+                left: -1 * var(--sidebar-w);
+                top: 0;
+                z-index: 1040;
+                height: 100vh;
+            }
+
+            /* can't use CSS calc negative with CSS variable in some old browsers; fallback below keeps existing left:-260px in older CSS */
+            /* but we'll still allow show class to set left:0 */
+            #sidebar.show {
+                left: 0;
+            }
+
+            #mainarea {
+                margin-left: 0 !important;
+            }
+
+            body.sidebar-open::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.35);
+                z-index: 1035;
+            }
+        }
+
+        .card-ghost {
+            background: linear-gradient(180deg, #fff, #fbfdff);
+            border: none;
+            box-shadow: 0 6px 22px rgba(15, 23, 42, 0.06);
+        }
+
+        .metric {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .metric-sub {
+            font-size: .85rem;
+            color: var(--muted);
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+            max-height: 420px;
+            box-sizing: border-box;
+        }
+
+        /* BOTTOM INFO - improved layout */
+        #sidebar .bottom-info {
+            padding: 0.6rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent);
+        }
+
+        #sidebar .bottom-inner {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* user meta */
+        #sidebar .user-meta {
+            min-width: 0;
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+        }
+
+        #sidebar .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 36px;
+        }
+
+        #sidebar .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* user text: allow ellipsis on small widths */
+        #sidebar .user-text {
+            overflow: hidden;
+            min-width: 0;
+        }
+
+        #sidebar .user-text .username {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        #sidebar .user-text .role {
+            color: rgba(255, 255, 255, 0.75);
+        }
+
+        /* action icons: small square buttons with centered icon */
+        #sidebar .user-actions .action-icon {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            font-size: 0.95rem;
+        }
+
+        /* hover/focus */
+        #sidebar .user-actions .action-icon:focus,
+        #sidebar .user-actions .action-icon:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+        }
+
+        /* collapsed sidebar: hide text, center icons */
+        #sidebar.collapsed .user-text,
+        #sidebar.collapsed .user-meta .user-avatar img {
+            display: none;
+        }
+
+        #sidebar.collapsed .user-avatar {
+            display: none;
+        }
+
+        #sidebar.collapsed .bottom-inner {
+            justify-content: center;
+            gap: .4rem;
+            padding: .5rem 0;
+        }
+
+        #sidebar.collapsed .user-actions {
+            gap: .4rem;
+        }
+
+        /* ensure clickable area remains accessible on small screens */
+        @media (max-width: 480px) {
+            #sidebar .user-text .username {
+                font-size: 0.85rem;
+            }
+
+            #sidebar .user-actions .action-icon {
+                width: 34px;
+                height: 34px;
+            }
+        }
